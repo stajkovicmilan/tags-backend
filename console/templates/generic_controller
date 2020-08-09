@@ -1,0 +1,111 @@
+import * as config from "config";
+import { Route } from "hapi-controllers";
+import { BaseController } from "../../core/web/controllers";
+import { Request } from "hapi";
+import { Create{{EntityName}}, Get{{EntityName}}, GetAll{{EntityName}}, Update{{EntityName}}, Delete{{EntityName}} } from "../../actions/{{entityName}}/";
+import * as Entities from "../../entities";
+
+export class {{EntityName}}Controller extends BaseController {
+
+    @Route({
+        method: "POST",
+        path: "/{{entityName}}",
+        config: {
+            auth: "simple",
+            description: "Create {{EntityName}}",
+            notes: "Returns new {{EntityName}}",
+            tags: ["api", "{{EntityName}}"],
+            validate: {
+                payload: Create{{EntityName}}.constraints,
+            },
+        },
+    })
+    public async create(request: Request) {
+        const params = request.payload;
+        return await this.executeAction<Entities.I{{EntityName}}>(Create{{EntityName}}.alias, request, params);
+    }
+
+    @Route({
+        method: "GET",
+        path: "/{{entityName}}",
+        config: {
+            auth: "simple",
+            description: "Get all {{EntityName}}s ",
+            notes: "Returns all {{EntityName}}",
+            tags: ["api", "{{EntityName}}"],
+            validate: {
+                query: GetAll{{EntityName}}.constraints,
+            },
+        },
+    })
+    public async getAll(request: Request) {
+        const params = {};
+        return await this.executeAction<Entities.I{{EntityName}}[]>(GetAll{{EntityName}}.alias, request, params);
+    }
+
+    @Route({
+        method: "GET",
+        path: "/{{entityName}}/{id}",
+        config: {
+            auth: "simple",
+            description: "Get {{EntityName}} by Id",
+            notes: "Returns {{EntityName}}",
+            tags: ["api", "{{EntityName}}"],
+            validate: {
+                params: Get{{EntityName}}.constraints,
+            },
+        },
+    })
+    public async getById(request: Request) {
+        const params = {
+            id: request.params.id,
+        };
+        return await this.executeAction<Entities.I{{EntityName}}>(Get{{EntityName}}.alias, request, params);
+    }
+
+    @Route({
+        method: "PUT",
+        path: "/{{entityName}}/{id}",
+        config: {
+            auth: "simple",
+            description: "Update single {{EntityName}}",
+            notes: "Returns updated {{EntityName}}",
+            tags: ["api", "{{EntityName}}"],
+            validate: {
+                params: {
+                    id: Update{{EntityName}}.constraints.id,
+                },
+                payload: {
+                    data: Update{{EntityName}}.constraints.data,
+                },
+            },
+        },
+    })
+    public async update(request: Request) {
+        const params = {
+            data: request.payload.data,
+            id: request.params.id,
+        };
+        return await this.executeAction<Entities.I{{EntityName}}>(Update{{EntityName}}.alias, request, params);
+    }
+
+    @Route({
+        method: "DELETE",
+        path: "/{{entityName}}/{id}",
+        config: {
+            auth: "simple",
+            description: "Delete {{EntityName}} by Id",
+            notes: "Returns true if delete is success",
+            tags: ["api", "{{EntityName}}"],
+            validate: {
+                params: Delete{{EntityName}}.constraints,
+            },
+        },
+    })
+    public async delete(request: Request) {
+        const params = {
+            id: request.params.id,
+        };
+        return await this.executeAction<boolean>(Delete{{EntityName}}.alias, request, params);
+    }
+}

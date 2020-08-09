@@ -1,0 +1,15 @@
+{
+    "env": "production",
+    "secret": "tags",
+    "password": {
+        "saltRounds": 10
+    },
+    "timeZone": "America/New_York", 
+    "webApp": "http://localhost:4200",
+    "mongoDbSettings": {
+        "dbUser": "tag",
+        "dbPassword": "tag1234",
+        "dbHost": "ds263856.mlab.com:63856/tags"
+    },
+    "asset_folder": "assets"
+}

@@ -1,0 +1,39 @@
+import { types } from "../../dependency-injection/";
+import { ActionContext } from "../ActionBase";
+import * as Exceptions from "../../core/infrastructure/exceptions/";
+import * as Services from "../../services/";
+import * as Repositories from "../../repositories";
+import * as Entities from "../../entities/";
+import { injectable, inject } from "inversify";
+import * as Joi from "joi";
+import { AuthorizedActionBase } from "../AuthorizedActionBase";
+
+@injectable()
+export class Create{{EntityName}} extends AuthorizedActionBase<Entities.I{{EntityName}}> {
+
+  public static constraints = {
+    data: Joi.object().required(),
+  };
+
+  public static alias = "Create{{EntityName}}";
+
+  constructor(@inject(types.I{{EntityName}}Repository) private {{entityName}}Repo: Repositories.I{{EntityName}}Repository) {
+    super();
+  };
+
+  public async execute(context: ActionContext): Promise<Entities.I{{EntityName}}> {
+    return await this.{{entityName}}Repo.create(context.params.data);
+  }
+
+  protected async onActionExecuting(context: ActionContext): Promise<ActionContext> {
+    return context;
+  }
+
+  protected async onActionExecuted(result: Entities.I{{EntityName}}): Promise<Entities.I{{EntityName}}> {
+    return result;
+  }
+
+  protected getConstraints(): any {
+    return Create{{EntityName}}.constraints;
+  }
+}

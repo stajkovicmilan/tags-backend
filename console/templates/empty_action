@@ -1,0 +1,37 @@
+import { types } from "../../dependency-injection/";
+import { ActionContext } from "../ActionBase";
+import * as Exceptions from "../../core/infrastructure/exceptions/";
+import * as Services from "../../services/";
+import * as Repositories from "../../repositories";
+import * as Entities from "../../entities/";
+import { injectable, inject } from "inversify";
+import * as Joi from "joi";
+import { AuthorizedActionBase } from "../AuthorizedActionBase";
+
+@injectable()
+export class {{ActionName}} extends AuthorizedActionBase<any> {
+
+  public static constraints = {};
+
+  public static alias = "{{ActionName}}";
+
+  constructor() {
+    super();
+  };
+
+  public async execute(context): Promise<any> {
+    return null;
+  }
+
+  protected async onActionExecuting(context: ActionContext): Promise<ActionContext> {
+    return context;
+  }
+
+  protected async onActionExecuted(result: any): Promise<any> {
+    return result;
+  }
+
+  protected getConstraints(): any {
+    return {{ActionName}}.constraints;
+  }
+}

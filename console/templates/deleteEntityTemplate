@@ -1,0 +1,43 @@
+import { types } from "../../dependency-injection/";
+import { ActionContext } from "../ActionBase";
+import * as Exceptions from "../../core/infrastructure/exceptions/";
+import * as Services from "../../services/";
+import * as Repositories from "../../repositories";
+import * as Entities from "../../entities/";
+import { injectable, inject } from "inversify";
+import * as Joi from "joi";
+import { AuthorizedActionBase } from "../AuthorizedActionBase";
+
+@injectable()
+export class Delete{{EntityName}} extends AuthorizedActionBase<boolean> {
+
+  public static constraints = {
+    id: Joi.string().required(),
+  };
+
+  public static alias = "Delete{{EntityName}}";
+
+  constructor(@inject(types.I{{EntityName}}Repository) private {{entityName}}Repo: Repositories.I{{EntityName}}Repository) {
+    super();
+  };
+
+  public async execute(context: ActionContext): Promise<boolean> {
+    const entity: Entities.I{{EntityName}} = await this.{{entityName}}Repo.findOne({ id: context.params.id });
+    if (!entity) {
+        throw new Exceptions.EntityNotFoundException("{{EntityName}}", context.params.id);
+    }
+    return await this.{{entityName}}Repo.delete(entity);
+  }
+
+  protected async onActionExecuting(context: ActionContext): Promise<ActionContext> {
+    return context;
+  }
+
+  protected async onActionExecuted(result: boolean): Promise<boolean> {
+    return result;
+  }
+
+  protected getConstraints(): any {
+    return Delete{{EntityName}}.constraints;
+  }
+}

@@ -1,0 +1,10 @@
+import * as Entities from "../entities";
+
+export interface {{RepositoryName}} {
+    create({{EntityName}}: Entities.I{{EntityName}}): Promise<Entities.I{{EntityName}}>;
+    delete({{EntityName}}: Entities.I{{EntityName}}): Promise<boolean>;
+    update({{EntityName}}: Entities.I{{EntityName}}): Promise<Entities.I{{EntityName}}>;
+    find(query: any): Promise<Entities.I{{EntityName}}[]>;
+    findOne(query: any): Promise<Entities.I{{EntityName}}>;
+    findAll(): Promise<Entities.I{{EntityName}}[]>;
+}
